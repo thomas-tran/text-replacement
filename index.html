@@ -13,11 +13,23 @@
     <script type="text/javascript">
         $(function () {
             $("#insert-text-btn").click(function () {
-                var targetString = $("#target-string-input").val();
+                var targetString = $("#target-string-input1").val();
                 var specificString = $("#specific-string-input1").val();
                 var inputText = $("#input-textarea1").val();
-                var regex = new RegExp(targetString, "g");
-                var outputText = inputText.replace(regex, targetString + specificString);
+                var outputText = "";
+
+                var startIndex = 0;
+                var index = inputText.indexOf(targetString, startIndex);
+                while (index !== -1) {
+                    outputText += inputText.substring(startIndex, index + targetString.length);
+                    outputText += specificString;
+                    startIndex = index + targetString.length;
+                    index = inputText.indexOf(targetString, startIndex);
+                }
+                outputText += inputText.substring(startIndex);
+
+                //var regex = new RegExp(targetString, "g");
+                //var outputText = inputText.replace(regex, targetString + specificString);
                 $("#output-textarea1").val(outputText);
             });
 
@@ -73,7 +85,7 @@
                 </div>
                 <div class="form-group">
                     <label for="target-string-input">Target String:</label>
-                    <input type="text" class="form-control" id="target-string-input" placeholder="Enter target string">
+                    <input type="text" class="form-control" id="target-string-input1" placeholder="Enter target string">
                 </div>
                 <div class="form-group">
                     <label for="specific-string-input">Specific String:</label>
