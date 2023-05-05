@@ -34,19 +34,68 @@
             });
 
             $("#insert-between-btn").click(function () {
+                /* var targetString1 = $("#target-string1-input").val();
+                 var targetString2 = $("#target-string2-input").val();
+                 var targetString3 = $("#target-string3-input").val();
+                 var specificString = $("#specific-string-input2").val();
+                 var inputText = $("#input-textarea2").val();
+                 var lines = inputText.split("\n");
+                 var outputLines = [];
+                 for (var i = 0; i < lines.length; i++) {
+                     outputLines.push(lines[i]);
+                     if (lines[i].startsWith(targetString1) && i < lines.length - 1 && lines[i + 1].startsWith(targetString2)) {
+                         outputLines.push(specificString);
+                     }
+                 }
+                 var outputText = outputLines.join("\n");
+                 $("#output-textarea2").val(outputText);*/
                 var targetString1 = $("#target-string1-input").val();
-                var targetString2 = $("#target-string2-input").val();
+                // var targetString2 = $("#target-string2-input").val();
+                var targetString3 = $("#target-string3-input").val();
                 var specificString = $("#specific-string-input2").val();
                 var inputText = $("#input-textarea2").val();
-                var lines = inputText.split("\n");
-                var outputLines = [];
-                for (var i = 0; i < lines.length; i++) {
-                    outputLines.push(lines[i]);
-                    if (lines[i].startsWith(targetString1) && i < lines.length - 1 && lines[i + 1].startsWith(targetString2)) {
-                        outputLines.push(specificString);
+                var arr = inputText.split("\n");
+                const subArrays = [];
+                let tempArray = [];
+
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i].startsWith("CNI+")) {
+                        if (tempArray.length > 0) {
+                            subArrays.push(tempArray);
+                        }
+                        tempArray = [arr[i]];
+                    } else {
+                        tempArray.push(arr[i]);
                     }
                 }
-                var outputText = outputLines.join("\n");
+                subArrays.push(tempArray);
+
+                for (let i = 0; i < subArrays.length; i++) {
+                    let hasRFFBM = false;
+                    let hasCNI = false;
+                    let insertIndex = 0;
+                    for (let j = 0; j < subArrays[i].length; j++) {
+                        if (subArrays[i][j].startsWith("CNI+")) {
+                            hasCNI = true;
+                            // break;
+                        }
+                        if (subArrays[i][j].startsWith(targetString3)) {
+                            console.log("should be ignore")
+                            hasRFFBM = true;
+                            // break;
+                        }
+                        if (subArrays[i][j].startsWith(targetString1)) {
+                            console.log("To be insert ...")
+                            if (hasCNI && !hasRFFBM) {
+                                subArrays[i].splice(j + 1, 0, specificString);
+                                j++;
+                            }
+                        }
+                    }
+
+                }
+                console.log(subArrays);
+                var outputText = subArrays.flat().join("\n");
                 $("#output-textarea2").val(outputText);
             });
 
@@ -70,14 +119,48 @@
         <h2>Insert String</h2>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#insert-after">Insert After</a>
+                <a class="nav-link active" data-toggle="tab" href="#insert-between">Insert Between</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#insert-between">Insert Between</a>
+                <a class="nav-link" data-toggle="tab" href="#insert-after">Insert After</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div id="insert-after" class="tab-pane active">
+            <div id="insert-between" class="tab-pane active">
+                <br>
+                <div class="form-group">
+                    <label for="input-textarea">Input Text:</label>
+                    <textarea class="form-control" rows="10" id="input-textarea2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="target-string1-input">After this line starts with</label>
+                    <input type="text" class="form-control" id="target-string1-input"
+                        placeholder="Enter target string 1" value="FTX+AAA+++">
+                </div>
+                <!--<div class="form-group">
+                    <label for="target-string2-input">Target String 2:</label>
+                    <input type="text" class="form-control" id="target-string2-input"
+                        placeholder="Enter target string 2" value="MEA+AAE+AAB">
+                </div>-->
+                <div class="form-group">
+                    <label for="target-string2-input">Ignore record starts with:</label>
+                    <input type="text" class="form-control" id="target-string3-input"
+                        placeholder="Enter target string 2" value="RFF+BM:NYKS20000">
+                </div>
+                <div class="form-group">
+                    <label for="specific-string-input">Specific String:</label>
+                    <input type="text" class="form-control" id="specific-string-input2"
+                        placeholder="TCARGO">
+                </div>
+                <button type="button" class="btn btn-primary" id="insert-between-btn">Insert specific text</button>
+                <div class="form-group">
+                    <label for="output-textarea">Output Text:</label>
+                    <textarea class="form-control" rows="10" id="output-textarea2"></textarea>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="download-btn2">Download Output</button>
+            </div>
+            <div id="insert-after" class="tab-pane fade">
 
                 <div class="form-group">
                     <label for="input-textarea">Input Text:</label>
@@ -101,35 +184,7 @@
                 <button type="button" class="btn btn-primary" id="download-btn1">Download Output</button>
             </div>
 
-            <div id="insert-between" class="tab-pane fade">
-                <br>
-                <div class="form-group">
-                    <label for="input-textarea">Input Text:</label>
-                    <textarea class="form-control" rows="10" id="input-textarea2"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="target-string1-input">Target String 1:</label>
-                    <input type="text" class="form-control" id="target-string1-input"
-                        placeholder="Enter target string 1">
-                </div>
-                <div class="form-group">
-                    <label for="target-string2-input">Target String 2:</label>
-                    <input type="text" class="form-control" id="target-string2-input"
-                        placeholder="Enter target string 2">
-                </div>
-                <div class="form-group">
-                    <label for="specific-string-input">Specific String:</label>
-                    <input type="text" class="form-control" id="specific-string-input2"
-                        placeholder="Enter specific string">
-                </div>
-                <button type="button" class="btn btn-primary" id="insert-between-btn">Insert Between</button>
-                <div class="form-group">
-                    <label for="output-textarea">Output Text:</label>
-                    <textarea class="form-control" rows="10" id="output-textarea2"></textarea>
-                </div>
 
-                <button type="button" class="btn btn-primary" id="download-btn2">Download Output</button>
-            </div>
 
             <br>
 
