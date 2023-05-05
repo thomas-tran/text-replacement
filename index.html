@@ -138,6 +138,11 @@
                     <textarea class="form-control" rows="10" id="input-textarea2"></textarea>
                 </div>
                 <div class="form-group">
+                    <label for="specific-string-input">Insert this string:</label>
+                    <input type="text" class="form-control" id="specific-string-input2"
+                        placeholder="TCARGO">
+                </div>
+                <div class="form-group">
                     <label for="target-string1-input">After this line starts with</label>
                     <input type="text" class="form-control" id="target-string1-input"
                         placeholder="Enter target string 1" value="FTX+AAA+++">
@@ -148,15 +153,11 @@
                         placeholder="Enter target string 2" value="MEA+AAE+AAB">
                 </div>-->
                 <div class="form-group">
-                    <label for="target-string2-input">Ignore record starts with:</label>
+                    <label for="target-string2-input">Excludes the following records seperated by comma.For example, don't insert the text to all the records start with RFF+BM:NYKS20000 and the record RFF+AAM:NYKS182114272:</label>
                     <input type="text" class="form-control" id="target-string3-input"
-                        placeholder="Enter target string 2" value="RFF+BM:NYKS20000,RFF+AAM:NYKS182114272">
+                         placeholder="RFF+BM:NYKS20000,RFF+AAM:NYKS182114272">
                 </div>
-                <div class="form-group">
-                    <label for="specific-string-input">Specific String:</label>
-                    <input type="text" class="form-control" id="specific-string-input2"
-                        placeholder="TCARGO">
-                </div>
+        
                 <button type="button" class="btn btn-primary" id="insert-between-btn">Insert specific text</button>
                 <div class="form-group">
                     <label for="output-textarea">Output Text:</label>
